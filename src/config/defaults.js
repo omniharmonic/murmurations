@@ -1,5 +1,10 @@
 // Default simulation parameters based on biological research
 export const defaults = {
+  // === GLOBAL SETTINGS ===
+  mode: 'murmuration',        // Current mode: 'murmuration' or 'fluid'
+  backgroundColor: '#0a0a0f', // Global background color
+  
+  // === MURMURATION (BOIDS) SETTINGS ===
   // Flocking behavior
   visualRange: 40,          // Neighbor detection radius
   protectedRange: 8,        // Personal space radius
@@ -25,7 +30,7 @@ export const defaults = {
   targetFPS: 60,
   minFPS: 30,
   
-  // Hand/Face Tracking
+  // === HAND/FACE TRACKING (shared) ===
   trackingEnabled: false,      // Enable webcam tracking
   showPreview: true,           // Show tracking preview window
   attractionStrength: 0.15,    // How strongly boids are attracted to hands/face
@@ -35,7 +40,31 @@ export const defaults = {
   orbitEnabled: true,          // Enable swirling orbit behavior
   orbitStrength: 0.08,         // Strength of orbit/swirl effect
   trackingScale: 200,          // Scale factor for mapping camera to simulation
-  depthScale: 100              // Z-axis depth scale for tracking
+  depthScale: 100,             // Z-axis depth scale for tracking
+  
+  // === FLUID DYNAMICS SETTINGS ===
+  fluidResolution: 512,        // Simulation grid resolution
+  velocityDissipation: 0.995,  // Velocity decay - how long motion persists
+  dyeDissipation: 1.0,         // Color decay - 1.0 means NO fade at all
+  pressureIterations: 20,      // Pressure solver iterations
+  vorticity: 25,               // Swirl/curl strength - creates organic motion
+  splatRadius: 0.015,          // Size of velocity splats
+  fluidBrightness: 1.0,        // Display brightness
+  
+  // Droplet settings
+  dropletCount: 5,             // Number of ink droplets
+  dropletSize: 0.1,            // Base droplet size
+  dropletSoftness: 0.4,        // Edge softness
+  dropletColor1: '#1a5fb4',    // Blue
+  dropletColor2: '#26a269',    // Green  
+  dropletColor3: '#e66100',    // Orange
+  
+  // Fluid background
+  fluidBackgroundColor: '#f5f7fa',
+  
+  // Tracking interaction - these control how your hands push the fluid
+  trackingForce: 0.5,          // How strongly hands push fluid
+  trackingRadius: 0.12         // Size of the push area
 };
 
 // Preset configurations
@@ -121,6 +150,89 @@ export const presets = {
     protectedRange: 5,
     maxSpeed: 8,
     minSpeed: 4
+  },
+  
+  // === FLUID MODE PRESETS ===
+  fluidDefault: {
+    ...defaults,
+    mode: 'fluid',
+    trackingEnabled: true,
+    dropletCount: 5,
+    dropletSize: 0.1,
+    dropletColor1: '#1a5fb4',
+    dropletColor2: '#26a269',
+    dropletColor3: '#e66100',
+    fluidBackgroundColor: '#f5f7fa',
+    velocityDissipation: 0.995,
+    dyeDissipation: 1.0,
+    vorticity: 25,
+    trackingForce: 0.5
+  },
+  
+  eternalDance: {
+    ...defaults,
+    mode: 'fluid',
+    trackingEnabled: true,
+    dropletCount: 4,
+    dropletSize: 0.12,
+    dropletColor1: '#0077b6',
+    dropletColor2: '#00b4d8',
+    dropletColor3: '#90e0ef',
+    fluidBackgroundColor: '#f0f8ff',
+    velocityDissipation: 0.997,
+    dyeDissipation: 1.0,
+    vorticity: 20,
+    trackingForce: 0.4
+  },
+  
+  vibrantSwirl: {
+    ...defaults,
+    mode: 'fluid',
+    trackingEnabled: true,
+    dropletCount: 6,
+    dropletSize: 0.08,
+    dropletColor1: '#e63946',
+    dropletColor2: '#f4a261',
+    dropletColor3: '#2a9d8f',
+    fluidBackgroundColor: '#fffaf0',
+    velocityDissipation: 0.99,
+    dyeDissipation: 1.0,
+    vorticity: 35,
+    trackingForce: 0.6
+  },
+  
+  cosmicNight: {
+    ...defaults,
+    mode: 'fluid',
+    trackingEnabled: true,
+    dropletCount: 5,
+    dropletSize: 0.1,
+    dropletColor1: '#7209b7',
+    dropletColor2: '#3a0ca3',
+    dropletColor3: '#f72585',
+    fluidBackgroundColor: '#0a0a14',
+    velocityDissipation: 0.996,
+    dyeDissipation: 1.0,
+    vorticity: 28,
+    fluidBrightness: 1.2,
+    trackingForce: 0.5
+  },
+  
+  gentleWaves: {
+    ...defaults,
+    mode: 'fluid',
+    trackingEnabled: true,
+    dropletCount: 4,
+    dropletSize: 0.14,
+    dropletSoftness: 0.6,
+    dropletColor1: '#2d6a4f',
+    dropletColor2: '#40916c',
+    dropletColor3: '#95d5b2',
+    fluidBackgroundColor: '#f0fff4',
+    velocityDissipation: 0.998,
+    dyeDissipation: 1.0,
+    vorticity: 15,
+    trackingForce: 0.3
   }
 };
 

@@ -2,14 +2,23 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
 export class SceneManager {
-  constructor(container) {
+  constructor(container, existingRenderer = null) {
     this.container = container;
     this.width = window.innerWidth;
     this.height = window.innerHeight;
     
     this.initScene();
     this.initCamera();
-    this.initRenderer();
+    
+    // Use existing renderer or create new one
+    if (existingRenderer) {
+      this.renderer = existingRenderer;
+      this.ownsRenderer = false;
+    } else {
+      this.initRenderer();
+      this.ownsRenderer = true;
+    }
+    
     this.initControls();
     this.initLighting();
     this.setupResize();
@@ -94,6 +103,7 @@ export class SceneManager {
   }
   
   render() {
+    this.renderer.setRenderTarget(null); // Ensure rendering to screen
     this.renderer.render(this.scene, this.camera);
   }
   
@@ -107,7 +117,3 @@ export class SceneManager {
     this.controls.reset();
   }
 }
-
-
-
-
